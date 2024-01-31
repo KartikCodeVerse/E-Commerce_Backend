@@ -8,7 +8,7 @@ import path from "path";
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 4545;
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
 app.use(express.json());
 app.use(cors());
@@ -40,7 +40,7 @@ app.post("/upload", upload.single("product"), (req, res) => {
   console.log(req.file);
   res.json({
     success: 1,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    image_url: `${BASE_URL}/images/${req.file.filename}`,
     message: "File uploaded successfully",
   });
 });
@@ -295,9 +295,9 @@ mongoose
   .then(() => {
     console.log("Connected to MongoDB");
     // Start the server after successful database connection
-    app.listen(port, (error) => {
+    app.listen(process.env.PORT, (error) => {
       if (!error) {
-        console.log(`Server Running on Port ${port}`);
+        console.log(`Server Running on ${BASE_URL}`);
       } else {
         console.log("Error :" + error);
       }
